@@ -78,6 +78,8 @@ class _RegisterViewState extends State<RegisterView> {
                   log("Email is already in use", name: tag);
                 } else if (e.code == "invalid-email") {
                   log("Invalid email", name: tag);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('This is a snackbar')));
                 }
               } on Exception catch (e) {
                 log("Finished with error: ${e.toString()}\nRuntime type: ${e.runtimeType}",
@@ -88,8 +90,8 @@ class _RegisterViewState extends State<RegisterView> {
           ),
           TextButton(
               onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, "/login/", (route) => false);
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil("/login/", (route) => false);
               },
               child: const Text("Already registered? Login here!"))
         ],
