@@ -26,7 +26,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                 log("Trying to send verification email for ${user?.email} ..........",
                     name: tag);
                 await user?.sendEmailVerification();
-                log("Sent", name: tag);
+                log("Sent to ${user?.email}", name: tag);
               },
               child: const Text("Send verification email")),
         ],
