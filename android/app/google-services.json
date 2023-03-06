@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "956496516378",
+    "project_id": "mynotes-flutter-crossplatform",
+    "storage_bucket": "mynotes-flutter-crossplatform.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:956496516378:android:49fdf3d615c7e0c6e508a3",
+        "android_client_info": {
+          "package_name": "com.wakevro.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "956496516378-9bjvplbdqlg297l5e4vqdlupvjj0o9jn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA66e0928yeS7yg5o5eApgSZjC_ocYPUMk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "956496516378-9bjvplbdqlg297l5e4vqdlupvjj0o9jn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

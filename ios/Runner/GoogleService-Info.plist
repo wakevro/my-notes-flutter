@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>956496516378-e3il66vltrsg2p384vhh33vn7n6q8mnh.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.956496516378-e3il66vltrsg2p384vhh33vn7n6q8mnh</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBbaTPJ9YGIE8Fm_9CUdUT8TpIdcSWovjw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>956496516378</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.wakevro.mynotes</string>
+	<key>PROJECT_ID</key>
+	<string>mynotes-flutter-crossplatform</string>
+	<key>STORAGE_BUCKET</key>
+	<string>mynotes-flutter-crossplatform.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:956496516378:ios:1022eab172ee7542e508a3</string>
+</dict>
+</plist>
