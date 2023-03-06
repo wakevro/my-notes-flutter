@@ -69,6 +69,11 @@ class _LoginViewState extends State<LoginView> {
                         email: email, password: password);
                 log("Logged in user with email ${_email.text} \nUser credential is $userCredential",
                     name: tag);
+                // ignore: use_build_context_synchronously
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  "/notes/",
+                  (route) => false,
+                );
               } on FirebaseAuthException catch (e) {
                 log("Finished with FirebaseAuthException: ${e.code}",
                     name: tag);
