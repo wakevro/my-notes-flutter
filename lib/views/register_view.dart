@@ -1,7 +1,8 @@
 import 'dart:developer';
 import 'package:mynotes/constants/routes.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mynotes/services/auth/auth_exceptions.dart';
+import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/utilities/show_error_dialog.dart';
 
 const tag = "RegisterView";
@@ -66,46 +67,33 @@ class _RegisterViewState extends State<RegisterView> {
               log("Registering user.........", name: tag);
 
               try {
-                final userCredential = await FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                        email: email, password: password);
-                log("Registered user with email ${_email.text} \nUser credential is $userCredential",
-                    name: tag);
-
-                final user = FirebaseAuth.instance.currentUser;
-                await user?.sendEmailVerification();
+                await AuthService.firebase().createUser(
+                  email: email,
+                  password: password,
+                );
+                log("Registered user with email ${_email.text}\n", name: tag);
+                await AuthService.firebase().sendEmailVerification();
                 if (!mounted) return;
                 Navigator.of(context).pushNamed(verifyEmailRoute);
-              } on FirebaseAuthException catch (e) {
-                log("Finished with FirebaseAuthException: ${e.code}",
-                    name: tag);
-                if (e.code == "weak-password") {
-                  log("Weak password", name: tag);
-                  await showErrorDialog(
-                    context,
-                    "Weak password",
-                  );
-                } else if (e.code == "email-already-in-use") {
-                  log("Email is already in use", name: tag);
-                  await showErrorDialog(
-                    context,
-                    "Email is already in use",
-                  );
-                } else if (e.code == "invalid-email") {
-                  log("Invalid email", name: tag);
-                  await showErrorDialog(
-                    context,
-                    "This is an invalid email address",
-                  );
-                } else {
-                  log("Finished with error: ${e.toString()}\nRuntime type: ${e.runtimeType}",
-                      name: tag);
-                  await showErrorDialog(
-                    context,
-                    "Error: ${e.code}",
-                  );
-                }
-              } on Exception catch (e) {
+              } on WeakPasswordAuthException {
+                log("Weak password", name: tag);
+                await showErrorDialog(
+                  context,
+                  "Weak password",
+                );
+              } on EmailAlreadyInUseAuthException {
+                log("Email is already in use", name: tag);
+                await showErrorDialog(
+                  context,
+                  "Email is already in use",
+                );
+              } on InvalidEmailAuthException {
+                log("Invalid email", name: tag);
+                await showErrorDialog(
+                  context,
+                  "This is an invalid email address",
+                );
+              } on GenericAuthException catch (e) {
                 log("Finished with error: ${e.toString()}\nRuntime type: ${e.runtimeType}",
                     name: tag);
                 await showErrorDialog(
