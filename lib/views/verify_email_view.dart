@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mynotes/constants/routes.dart';
 
 const tag = "VerifyEmail";
 
@@ -27,6 +28,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
                     name: tag);
                 await user?.sendEmailVerification();
                 log("Sent to ${user?.email}", name: tag);
+                // ignore: use_build_context_synchronously
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil(loginRoute, (route) => false);
               },
               child: const Text("Send verification email")),
         ],

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:mynotes/constants/routes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mynotes/utilities/show_error_dialog.dart';
 
 const tag = "LoginView";
 
@@ -79,24 +80,46 @@ class _LoginViewState extends State<LoginView> {
                     name: tag);
                 if (e.code == "user-not-found") {
                   log("User not found", name: tag);
+                  await showErrorDialog(
+                    context,
+                    "User not found",
+                  );
                 } else if (e.code == "wrong-password") {
                   log("Wrong password", name: tag);
+                  await showErrorDialog(
+                    context,
+                    "Wrong password",
+                  );
+                } else {
+                  log("Finished with error: ${e.toString()}\nRuntime type: ${e.runtimeType}",
+                      name: tag);
+                  await showErrorDialog(
+                    context,
+                    "Error: ${e.code}",
+                  );
                 }
               } on Exception catch (e) {
                 log("Finished with error: ${e.toString()}\nRuntime type: ${e.runtimeType}",
                     name: tag);
+                await showErrorDialog(
+                  context,
+                  "Error: ${e.toString()}",
+                );
               }
             },
             child: const Text("Login"),
           ),
           TextButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil(registerRoute, (route) => false);
-              },
-              child: const Text("Not registered yet? Register here")),
+            onPressed: () {
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil(registerRoute, (route) => false);
+            },
+            child: const Text("Not registered yet? Register here"),
+          ),
         ],
       ),
     );
   }
 }
+
+
