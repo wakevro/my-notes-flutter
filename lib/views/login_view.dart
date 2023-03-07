@@ -65,16 +65,39 @@ class _LoginViewState extends State<LoginView> {
               final password = _password.text;
               log("Logging in user.........", name: tag);
               try {
-                final userCredential = await FirebaseAuth.instance
-                    .signInWithEmailAndPassword(
-                        email: email, password: password);
+                final userCredential =
+                    await FirebaseAuth.instance.signInWithEmailAndPassword(
+                  email: email,
+                  password: password,
+                );
                 log("Logged in user with email ${_email.text} \nUser credential is $userCredential",
                     name: tag);
-                if (!mounted) return;
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  notesRoute,
-                  (route) => false,
-                );
+                final user = FirebaseAuth.instance.currentUser;
+                log("Current user: ${user?.email}", name: tag);
+                if (user != null) {
+                  if (user.emailVerified) {
+                    log("You are verified", name: tag);
+                    if (!mounted) return;
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      notesRoute,
+                      (route) => false,
+                    );
+                  } else {
+                    log("You need to verify your email first ", name: tag);
+                    if (!mounted) return;
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                      verifyEmailRoute,
+                      (route) => false,
+                    );
+                  }
+                } else {
+                  log("User is null", name: tag);
+                  if (!mounted) return;
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    loginRoute,
+                    (route) => false,
+                  );
+                }
               } on FirebaseAuthException catch (e) {
                 log("Finished with FirebaseAuthException: ${e.code}",
                     name: tag);
