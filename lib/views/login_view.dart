@@ -70,7 +70,7 @@ class _LoginViewState extends State<LoginView> {
                         email: email, password: password);
                 log("Logged in user with email ${_email.text} \nUser credential is $userCredential",
                     name: tag);
-                // ignore: use_build_context_synchronously
+                if (!mounted) return;
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   notesRoute,
                   (route) => false,
@@ -121,5 +121,3 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 }
-
-
