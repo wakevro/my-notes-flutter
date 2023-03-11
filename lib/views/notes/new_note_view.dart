@@ -53,6 +53,8 @@ class _NewNoteViewState extends State<NewNoteView> {
     if (_textController.text.isEmpty && note != null) {
       log("Note is empty", name: tag);
       _noteService.deleteNote(id: note.id);
+    } else {
+      log("Note is not empty: Note: ${note?.text}", name: tag);
     }
   }
 
@@ -93,7 +95,7 @@ class _NewNoteViewState extends State<NewNoteView> {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              _note = snapshot.data;
+              _note = snapshot.data as DatabaseNote;
               log("New note info: $_note", name: tag);
               _setupTextControllerlistener();
               return TextField(
