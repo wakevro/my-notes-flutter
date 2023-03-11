@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mynotes/enums/menu_action.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/crud/notes_service.dart';
+import 'package:mynotes/widgets/circular_loading.dart';
 
 const tag = "NotesView";
 
@@ -84,6 +85,7 @@ class _NotesViewState extends State<NotesView> {
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
+                        case ConnectionState.active:
                           return const Text("Waiting for all notes...");
                         default:
                           return showCircularLoading();
@@ -122,8 +124,4 @@ Future<bool> showLogOutDialog(BuildContext context) {
   ).then((value) => value ?? false);
 }
 
-Scaffold showCircularLoading() {
-  return const Scaffold(
-    body: Center(child: CircularProgressIndicator()),
-  );
-}
+
