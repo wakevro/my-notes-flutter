@@ -18,4 +18,11 @@ class CloudNote {
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdFieldName] as String,
         text = snapshot.data()[textFieldName] as String;
+
+  @override
+  String toString() =>
+      "Cloud note text: $text, documentId: $documentId, ownerUserId: $ownerUserId\n";
+
+  
+  
 }
