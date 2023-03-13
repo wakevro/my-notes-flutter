@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/crud/notes_service.dart';
-import 'package:mynotes/widgets/circular_loading.dart';
+import 'package:mynotes/utilities/show_circular_loading.dart';
 
 String tag = "NewNoteView";
 
