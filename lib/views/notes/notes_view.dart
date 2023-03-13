@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:mynotes/enums/menu_action.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/crud/notes_service.dart';
-import 'package:mynotes/widgets/circular_loading.dart';
+import 'package:mynotes/utilities/dialog/logout_dialog.dart';
+import 'package:mynotes/utilities/show_circular_loading.dart';
+import 'package:mynotes/views/notes/notes_list_view.dart';
 
 const tag = "NotesView";
 
@@ -27,6 +29,7 @@ class _NotesViewState extends State<NotesView> {
 
   @override
   Widget build(BuildContext context) {
+    String savedUserEmail = userEmail;
     return Scaffold(
         appBar: AppBar(
           title: const Text("Your Notes"),
@@ -42,14 +45,14 @@ class _NotesViewState extends State<NotesView> {
                 log("Value: $value selected", name: tag);
                 switch (value) {
                   case MenuAction.logout:
-                    final shouldLogout = await showLogOutDialog(context);
+                    final shouldLogout = await showLogoutDialog(context);
                     log("User clicked '$shouldLogout' for log out dialog",
                         name: tag);
                     if (shouldLogout) {
                       log("Starting to sign out.....", name: tag);
                       await AuthService.firebase().logOut();
-                      log("User signed out", name: tag);
-                      log("Testing here: user email$userEmail");
+                      log("User signed out of email: $savedUserEmail",
+                          name: tag);
 
                       if (!mounted) return;
                       Navigator.of(context).pushNamedAndRemoveUntil(
@@ -79,24 +82,16 @@ class _NotesViewState extends State<NotesView> {
                     builder: (context, snapshot) {
                       switch (snapshot.connectionState) {
                         case ConnectionState.waiting:
-                          return const Text("Waiting for all notes...");
+                          return showCircularLoading();
                         case ConnectionState.active:
                           if (snapshot.hasData) {
                             final allNotes =
                                 snapshot.data as List<DatabaseNote>;
                             log("All notes: $allNotes", name: tag);
-                            return ListView.builder(
-                              itemCount: allNotes.length,
-                              itemBuilder: (context, index) {
-                                final note = allNotes[index];
-                                return ListTile(
-                                  title: Text(
-                                    note.text,
-                                    maxLines: 1,
-                                    softWrap: true,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                );
+                            return NotesListView(
+                              notes: allNotes,
+                              onDeleteNote: (note) async {
+                                _noteService.deleteNote(id: note.id);
                               },
                             );
                           } else {
@@ -113,28 +108,4 @@ class _NotesViewState extends State<NotesView> {
           },
         ));
   }
-}
-
-Future<bool> showLogOutDialog(BuildContext context) {
-  return showDialog<bool>(
-    context: context,
-    builder: (context) {
-      return AlertDialog(
-        title: const Text("Log out"),
-        content: const Text("Are you sure you want to log out?"),
-        actions: [
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(false);
-              },
-              child: const Text("Cancel")),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(true);
-              },
-              child: const Text("Log out")),
-        ],
-      );
-    },
-  ).then((value) => value ?? false);
 }
