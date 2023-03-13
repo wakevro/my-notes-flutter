@@ -82,7 +82,9 @@ class _NotesViewState extends State<NotesView> {
             case ConnectionState.active:
               if (snapshot.hasData) {
                 final allNotes = snapshot.data as Iterable<CloudNote>;
-                log("All notes: $allNotes", name: tag);
+                final Iterable printableNotes =
+                    allNotes.map((note) => note.toString());
+                log("Notes: ${printableNotes.toString()}", name: tag);
                 return NotesListView(
                   notes: allNotes,
                   onDeleteNote: (note) async {
