@@ -1,9 +1,14 @@
 import 'dart:developer';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/services/auth/auth_exceptions.dart';
-import 'package:mynotes/services/auth/auth_service.dart';
+
+import 'package:mynotes/services/auth/bloc/auth_block.dart';
+import 'package:mynotes/services/auth/bloc/auth_event.dart';
+
 import 'package:mynotes/utilities/dialog/error_dialog.dart';
+
 
 const tag = "LoginView";
 
@@ -64,37 +69,12 @@ class _LoginViewState extends State<LoginView> {
                   name: tag);
               final email = _email.text;
               final password = _password.text;
-              log("Logging in user.........", name: tag);
               try {
-                await AuthService.firebase()
-                    .logIn(email: email, password: password);
-                log("Logged in user with email ${_email.text}\n", name: tag);
-                final user = AuthService.firebase().currentUser;
-                log("Current user: ${user?.email}", name: tag);
-                if (user != null) {
-                  if (user.isEmailVerified) {
-                    log("You are verified", name: tag);
-                    if (!mounted) return;
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      notesRoute,
-                      (route) => false,
-                    );
-                  } else {
-                    log("You need to verify your email first ", name: tag);
-                    if (!mounted) return;
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      verifyEmailRoute,
-                      (route) => false,
-                    );
-                  }
-                } else {
-                  log("User is null", name: tag);
-                  if (!mounted) return;
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    loginRoute,
-                    (route) => false,
-                  );
-                }
+                log("Here........", name: tag);
+                context.read<AuthBloc>().add(AuthEventLogIn(
+                      email,
+                      password,
+                    ));
               } on UserNotFoundAuthException {
                 log("User not found", name: tag);
                 await showErrorDialog(
