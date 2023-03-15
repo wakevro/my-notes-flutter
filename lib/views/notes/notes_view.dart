@@ -1,8 +1,11 @@
 import 'dart:developer';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/enums/menu_action.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
+import 'package:mynotes/services/auth/bloc/auth_block.dart';
+import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/services/cloud/firebase_cloud_storage.dart';
 import 'package:mynotes/utilities/dialog/logout_dialog.dart';
@@ -52,12 +55,11 @@ class _NotesViewState extends State<NotesView> {
                       name: tag);
                   if (shouldLogout) {
                     log("Starting to sign out.....", name: tag);
-                    await AuthService.firebase().logOut();
-                    log("User signed out of email: $savedUserEmail", name: tag);
-
                     if (!mounted) return;
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil(loginRoute, (route) => false);
+                    context.read<AuthBloc>().add(
+                          const AuthEventLogOut(),
+                        );
+                    log("User signed out of email: $savedUserEmail", name: tag);
                   }
                   break;
               }

@@ -1,7 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:mynotes/services/auth/auth_service.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mynotes/services/auth/bloc/auth_block.dart';
+import 'package:mynotes/services/auth/bloc/auth_event.dart';
+import 'package:mynotes/services/auth/bloc/auth_state.dart';
+import 'package:mynotes/utilities/show_circular_loading.dart';
 import 'package:mynotes/views/login_view.dart';
 import 'package:mynotes/views/notes/notes_view.dart';
 import 'package:mynotes/views/verify_email_view.dart';
@@ -13,32 +17,22 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: AuthService.firebase().initialize(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              final user = AuthService.firebase().currentUser;
-              log("Current user: ${user?.email}", name: tag);
-              if (user != null) {
-                if (user.isEmailVerified) {
-                  log("You are verified", name: tag);
-
-                  return const NotesView();
-                } else {
-                  log("You need to verify your email first ", name: tag);
-                  return const VerifyEmailView();
-                }
-              } else {
-                log("User is null", name: tag);
-                return const LoginView();
-              }
-            default:
-              return Scaffold(
-                appBar: AppBar(title: const Text("Home")),
-                body: const Center(child: CircularProgressIndicator()),
-              );
-          }
-        });
+    context.read<AuthBloc>().add(const AuthEventIinitialize());
+    return BlocBuilder<AuthBloc, AuthState>(
+      builder: (context, state) {
+        if (state is AuthStateLoggedIn) {
+          log("You are verified", name: tag);
+          return const NotesView();
+        } else if (state is AuthStateNeedsVerification) {
+          log("You need to verify your email first ", name: tag);
+          return const VerifyEmailView();
+        } else if (state is AuthStateLoggedOut) {
+          log("User is null", name: tag);
+          return const LoginView();
+        } else {
+          return showCircularLoading();
+        }
+      },
+    );
   }
 }
