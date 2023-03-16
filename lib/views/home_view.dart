@@ -1,4 +1,4 @@
-import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,13 +21,10 @@ class HomeView extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthStateLoggedIn) {
-          log("You are verified", name: tag);
           return const NotesView();
         } else if (state is AuthStateNeedsVerification) {
-          log("You need to verify your email first ", name: tag);
           return const VerifyEmailView();
         } else if (state is AuthStateLoggedOut) {
-          log("User is null", name: tag);
           return const LoginView();
         } else {
           return showCircularLoading();
