@@ -96,6 +96,19 @@ void main() {
         expect(user, isNotNull);
       },
     );
+
+    test(
+      "Should be able to send password reset",
+      () async {
+        expect(
+          provider.sendPasswordReset(toEmail: "invalidemail"),
+          throwsA(const TypeMatcher<InvalidEmailAuthException>()),
+        );
+
+        expect(provider.sendPasswordReset(toEmail: "usernotfound"),
+            throwsA(const TypeMatcher<UserNotFoundAuthException>()));
+      },
+    );
   });
 }
 
@@ -160,5 +173,12 @@ class MockAuthProvider implements AuthProvider {
       id: "my_id",
     );
     _user = newUser;
+  }
+
+  @override
+  Future<void> sendPasswordReset({required String toEmail}) async {
+    if (!isInitialized) throw NotInitializedException();
+    if (toEmail == "invalidemail") throw InvalidEmailAuthException();
+    if (toEmail == "usernotfound") throw UserNotFoundAuthException();
   }
 }

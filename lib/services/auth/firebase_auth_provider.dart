@@ -8,7 +8,6 @@ import 'package:mynotes/services/auth/auth_exceptions.dart';
 import 'package:firebase_auth/firebase_auth.dart'
     show FirebaseAuth, FirebaseAuthException;
 
-
 const tag = "FirebaseAuthProvider";
 
 class FirebaseAuthProvider implements AuthProvider {
@@ -117,6 +116,27 @@ class FirebaseAuthProvider implements AuthProvider {
       await user.sendEmailVerification();
     } else {
       throw UserNotLoggedInAuthException();
+    }
+  }
+
+  @override
+  Future<void> sendPasswordReset({required String toEmail}) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: toEmail);
+    } on FirebaseAuthException catch (e) {
+      log("Finished with error: ${e.code}\n", name: tag);
+      switch (e.code) {
+        case "missing-email":
+          throw InvalidEmailAuthException();
+        case "user-not-found":
+          throw UserNotFoundAuthException();
+        default:
+          throw GenericAuthException();
+      }
+    } catch (e) {
+      log("Finished with generic error: ${e.toString()}\nRuntime type: ${e.runtimeType}",
+          name: tag);
+      throw GenericAuthException();
     }
   }
 }

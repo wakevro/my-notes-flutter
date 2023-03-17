@@ -114,7 +114,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
                   Share.share(text);
                 }
               },
-              icon: const Icon(Icons.share))
+              icon: Icon(Icons.adaptive.share))
         ],
       ),
       body: FutureBuilder(
