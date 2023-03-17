@@ -10,7 +10,7 @@ const tag = "HomePage";
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
+  runApp( 
     MaterialApp(
       title: 'My Notes',
       theme: ThemeData(
