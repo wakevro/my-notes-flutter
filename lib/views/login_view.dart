@@ -57,54 +57,56 @@ class _LoginViewState extends State<LoginView> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const Text(
-                  "Please log in to your account to interact with and create notes!"),
-              TextField(
-                controller: _email,
-                enableSuggestions: false,
-                autocorrect: false,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  hintText: "Enter your email here",
+          child: SingleChildScrollView (
+            child: Column(
+              children: [
+                const Text(
+                    "Please log in to your account to interact with and create notes!"),
+                TextField(
+                  controller: _email,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(
+                    hintText: "Enter your email here",
+                  ),
                 ),
-              ),
-              TextField(
-                controller: _password,
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration: const InputDecoration(
-                  hintText: "Enter your password here",
+                TextField(
+                  controller: _password,
+                  obscureText: true,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                  decoration: const InputDecoration(
+                    hintText: "Enter your password here",
+                  ),
                 ),
-              ),
-              TextButton(
-                onPressed: () async {
-                  log("Clicked on Login Button\nEmail: ${_email.text} \nPassword: ${_password.text}",
-                      name: tag);
-                  final email = _email.text;
-                  final password = _password.text;
-                  context.read<AuthBloc>().add(AuthEventLogIn(
-                        email: email,
-                        password: password,
-                      ));
-                },
-                child: const Text("Login"),
-              ),
-              TextButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(const AuthEventForgotPassword());
-                },
-                child: const Text("Forgot password"),
-              ),
-              TextButton(
-                onPressed: () {
-                  context.read<AuthBloc>().add(const AuthEventShouldRegister());
-                },
-                child: const Text("Not registered yet? Register here"),
-              ),
-            ],
+                TextButton(
+                  onPressed: () async {
+                    log("Clicked on Login Button\nEmail: ${_email.text} \nPassword: ${_password.text}",
+                        name: tag);
+                    final email = _email.text;
+                    final password = _password.text;
+                    context.read<AuthBloc>().add(AuthEventLogIn(
+                          email: email,
+                          password: password,
+                        ));
+                  },
+                  child: const Text("Login"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(const AuthEventForgotPassword());
+                  },
+                  child: const Text("Forgot password"),
+                ),
+                TextButton(
+                  onPressed: () {
+                    context.read<AuthBloc>().add(const AuthEventShouldRegister());
+                  },
+                  child: const Text("Not registered yet? Register here"),
+                ),
+              ],
+            ),
           ),
         ),
       ),
