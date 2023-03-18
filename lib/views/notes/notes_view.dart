@@ -10,7 +10,7 @@ import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/services/cloud/firebase_cloud_storage.dart';
 import 'package:mynotes/utilities/dialog/logout_dialog.dart';
-import 'package:mynotes/utilities/show_circular_loading.dart';
+import 'package:mynotes/utilities/dialog/show_circular_loading.dart';
 import 'package:mynotes/views/notes/notes_list_view.dart';
 
 const tag = "NotesView";
