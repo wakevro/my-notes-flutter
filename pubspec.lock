@@ -307,6 +307,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_platform_widgets:
+    dependency: "direct main"
+    description:
+      name: flutter_platform_widgets
+      sha256: "5d85593be60aa3ec6a7ec9fb9239d6c0b8ec5965fbb5931530f251ec43a88c21"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -876,4 +884,4 @@ packages:
     version: "3.1.1"
 sdks:
   dart: ">=2.19.3 <3.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.7.0"

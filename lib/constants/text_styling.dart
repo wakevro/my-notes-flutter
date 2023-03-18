@@ -20,4 +20,7 @@ class TStyle {
 
   static TextStyle heading2 =
       GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.w300);
+
+  static TextStyle bodyExtraSmall =
+      const TextStyle(fontSize: 15, fontWeight: FontWeight.w400);
 }
