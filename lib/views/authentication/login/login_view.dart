@@ -79,13 +79,12 @@ class _LoginViewState extends State<LoginView> {
                   height: 30,
                 ),
                 Text(
-                  "Welcome back!",
+                  context.loc.welcome_back,
                   style: TStyle.heading1,
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                // nice completed welcome back
                 Container(
                   padding: const EdgeInsets.only(
                       left: 15, top: 5, right: 15, bottom: 5),
@@ -102,7 +101,7 @@ class _LoginViewState extends State<LoginView> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: context.loc.email_text_field_placeholder,
-                      labelText: "E-mail",
+                      labelText: context.loc.email,
                       hintStyle: TStyle.placeholder,
                     ),
                     controller: _email,
@@ -131,7 +130,7 @@ class _LoginViewState extends State<LoginView> {
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: context.loc.password_text_field_placeholder,
-                      labelText: "Password",
+                      labelText: context.loc.password,
                       hintStyle: TStyle.placeholder,
                       suffixIcon: togglePassword(),
                     ),
@@ -259,13 +258,14 @@ class _LoginViewState extends State<LoginView> {
 
   IconButton togglePassword() {
     return IconButton(
-        onPressed: () {
-          setState(() {
-            _isSecuredPassword = !_isSecuredPassword;
-          });
-        },
-        icon: _isSecuredPassword
-            ? const Icon(Icons.visibility_sharp)
-            : const Icon(Icons.visibility_off_sharp));
+      onPressed: () {
+        setState(() {
+          _isSecuredPassword = !_isSecuredPassword;
+        });
+      },
+      icon: _isSecuredPassword
+          ? const Icon(Icons.visibility_off_sharp)
+          : const Icon(Icons.visibility_sharp),
+    );
   }
 }

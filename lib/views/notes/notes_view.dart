@@ -1,8 +1,9 @@
 import 'dart:developer';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:mynotes/enums/menu_action.dart';
 import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/auth/bloc/auth_block.dart';
@@ -61,11 +62,11 @@ class _NotesViewState extends State<NotesView> {
             },
             icon: const Icon(Icons.add),
           ),
-          PopupMenuButton(
-            onSelected: (value) async {
-              log("Value: $value selected", name: tag);
-              switch (value) {
-                case MenuAction.logout:
+          PlatformPopupMenu(
+            options: [
+              PopupMenuOption(
+                label: context.loc.logout_button,
+                onTap: (p0) async {
                   final shouldLogout = await showLogoutDialog(context);
                   log("User clicked '$shouldLogout' for log out dialog",
                       name: tag);
@@ -77,17 +78,17 @@ class _NotesViewState extends State<NotesView> {
                         );
                     log("User signed out of email: $savedUserEmail", name: tag);
                   }
-                  break;
-              }
-            },
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem<MenuAction>(
-                  value: MenuAction.logout,
-                  child: Text(context.loc.logout_button),
-                ),
-              ];
-            },
+                },
+              ),
+            ],
+            icon: PlatformWidget(
+              cupertino: (context, platform) {
+                return const Icon(CupertinoIcons.ellipsis);
+              },
+              material: (context, platform) {
+                return const Icon(Icons.more_vert);
+              },
+            ),
           ),
         ],
       ),

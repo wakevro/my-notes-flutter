@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mynotes/constants/pallete.dart';
+import 'package:mynotes/constants/text_styling.dart';
 import 'package:mynotes/helpers/loading/loading_screen_controller.dart';
 
 class LoadingScreen {
@@ -46,11 +48,11 @@ class LoadingScreen {
               constraints: BoxConstraints(
                 maxWidth: size.width * 0.8,
                 maxHeight: size.height * 0.8,
-                minWidth: size.width * 0.5,
+                minWidth: size.width * 0.6,
               ),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
+                color: Pallete.whiteColor,
+                borderRadius: BorderRadius.circular(15.0),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -59,8 +61,8 @@ class LoadingScreen {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 10),
-                      const CircularProgressIndicator(),
+                      const SizedBox(height: 15),
+                      const CircularProgressIndicator.adaptive(),
                       const SizedBox(height: 20),
                       StreamBuilder(
                         stream: textStreamController.stream,
@@ -69,12 +71,14 @@ class LoadingScreen {
                             return Text(
                               snapshot.data as String,
                               textAlign: TextAlign.center,
+                              style: TStyle.bodyExtraSmall,
                             );
                           } else {
                             return Container();
                           }
                         },
-                      )
+                      ),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 ),

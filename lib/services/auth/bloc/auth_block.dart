@@ -128,7 +128,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         } on Exception catch (e) {
           didSendEmail = false;
           exception = e;
-          log("Exception her is $e");
+          log("Exception here is $e");
         }
 
         emit(AuthStateForgotPassword(

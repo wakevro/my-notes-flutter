@@ -10,7 +10,7 @@ CloseDialog showLoadingDialog({
     content: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const CircularProgressIndicator(),
+        const CircularProgressIndicator.adaptive(),
         const SizedBox(height: 10),
         Text(text),
       ],
