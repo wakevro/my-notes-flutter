@@ -5,7 +5,7 @@ import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/utilities/dialog/cannot_share_empty_note.dart';
 import 'package:mynotes/utilities/generics/get_arguments.dart';
-import 'package:mynotes/utilities/show_circular_loading.dart';
+import 'package:mynotes/utilities/dialog/show_circular_loading.dart';
 import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/services/cloud/firebase_cloud_storage.dart';
 import 'package:share_plus/share_plus.dart';
