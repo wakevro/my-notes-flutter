@@ -1,0 +1,57 @@
+{
+    "logout_button": "Cerrar sesión",
+    "note": "Nota",
+    "cancel": "Cancelar",
+    "yes": "Sí",
+    "delete": "Eliminar",
+    "sharing": "Compartir",
+    "ok": "OK",
+    "login": "Iniciar sesión",
+    "verify_email": "Verificar correo electrónico",
+    "register": "Registrar",
+    "restart": "Reiniciar",
+    "start_typing_your_note": "Comience a escribir su nota",
+    "delete_note_prompt": "¿Estás seguro de que quieres eliminar esta nota?",
+    "cannot_share_empty_note_prompt": "¡No se puede compartir una nota vacía!",
+    "generic_error_prompt": "Se produjo un error",
+    "logout_dialog_prompt": "¿Estás seguro de que deseas cerrar sesión?",
+    "password_reset": "Restablecimiento de contraseña",
+    "password_reset_dialog_prompt": "Ahora le hemos enviado un enlace para restablecer la contraseña. Por favor, revise su correo electrónico para obtener más información.",
+    "login_error_cannot_find_user": "¡No se puede encontrar un usuario con las credenciales ingresadas!",
+    "login_error_wrong_credentials": "Credenciales incorrectas",
+    "login_error_auth_error": "Error de autenticación",
+    "login_view_prompt": "¡Inicie sesión en su cuenta para interactuar y crear notas!",
+    "login_view_forgot_password": "Olvidé mi contraseña",
+    "login_view_not_registered_yet": "¿Todavía no estás registrado? ¡Regístrate aquí!",
+    "email_text_field_placeholder": "Ingrese su correo electrónico aquí",
+    "password_text_field_placeholder": "Ingrese su contraseña aquí",
+    "forgot_password": "Olvidé mi contraseña",
+    "forgot_password_view_generic_error": "No pudimos procesar su solicitud. Asegúrese de ser un usuario registrado o, de lo contrario, regístrese ahora retrocediendo un paso.",
+    "forgot_password_view_prompt": "Si olvidó su contraseña, simplemente ingrese su correo electrónico y le enviaremos un enlace para restablecer la contraseña.",
+    "forgot_password_view_send_me_link": "Envíame un enlace para restablecer la contraseña",
+    "forgot_password_view_back_to_login": "Volver a la página de inicio de sesión",
+    "register_error_weak_password": "Esta contraseña no es lo suficientemente segura. ¡Por favor, elija otra contraseña!",
+    "register_error_email_already_in_use": "Este correo electrónico ya está registrado para otro usuario. ¡Por favor, elija otro correo electrónico!",
+    "register_error_generic": "Error al registrarse. ¡Por favor, inténtelo de nuevo más tarde!",
+    "register_error_invalid_email": "La dirección de correo electrónico que ingresó parece ser inválida. ¡Por favor, intente con otra dirección de correo electrónico!",
+    "register_view_prompt": "¡Ingrese su correo electrónico y contraseña para ver sus notas!",
+    "register_view_already_registered": "¿Ya estás registrado? Inicia sesión aquí!",
+    "verify_email_view_prompt": "Le hemos enviado una verificación de correo electrónico. Por favor, ábralo para verificar su cuenta. Si aún no ha recibido un correo electrónico de verificación, ¡presione el botón de abajo!",
+    "verify_email_send_email_verification": "Enviar verificación de correo electrónico",
+    "notes_title": "{count, plural, =0{No hay notas todavía} =1{1 nota} other{{count} notas}}",
+    "@notes_title": {
+        "placeholders": {
+            "count": {
+                "type": "int",
+                "example": "3 notas"
+            }
+        }
+    },
+    "user_not_found_error": "Error: Usuario no encontrado",
+    "invalid_email_error": "Correo electrónico inválido",
+    "could_not_process_request_error": "No se pudo procesar la solicitud",
+    "send_password_reset": "Enviar enlace de restablecimiento de contraseña",
+    "back_to_login": "Volver a la página de inicio de sesión",
+
+    "failed_to_register": "No se pudo registrar"
+}
