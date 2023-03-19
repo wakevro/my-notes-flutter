@@ -52,6 +52,7 @@ dependencies:
   intl: any
   google_fonts: ^4.0.3
   flutter_platform_widgets: ^3.1.0
+  flutter_slidable: ^2.0.0
 
 dev_dependencies:
   flutter_test:

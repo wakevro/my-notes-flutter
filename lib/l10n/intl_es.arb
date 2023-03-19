@@ -1,6 +1,7 @@
 {
     "logout_button": "Cerrar sesión",
     "note": "Nota",
+    "notes": "Notas",
     "cancel": "Cancelar",
     "yes": "Sí",
     "delete": "Eliminar",
@@ -54,7 +55,7 @@
     "user_not_found_error": "Error: Usuario no encontrado",
     "invalid_email_error": "Correo electrónico inválido",
     "could_not_process_request_error": "No se pudo procesar la solicitud",
-    "send_password_reset": "Enviar enlace de restablecimiento de contraseña",
+    "send": "Enviara",
     "back_to_login": "Volver a la página de inicio de sesión",
 
     "failed_to_register": "No se pudo registrar"

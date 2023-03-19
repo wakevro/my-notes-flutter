@@ -1,6 +1,7 @@
 {
     "logout_button": "Log out",
     "note": "Note",
+    "notes": "Notes",
     "cancel": "Cancel",
     "yes": "Yes",
     "delete": "Delete",
@@ -54,7 +55,7 @@
     "user_not_found_error": "Error: User not found",
     "invalid_email_error": "Invalid Email",
     "could_not_process_request_error": "Could not process request",
-    "send_password_reset": "Send password reset link",
+    "send": "Send",
     "back_to_login": "Back to Login page",
 
     "failed_to_register": "Failed to register"

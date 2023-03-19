@@ -65,6 +65,7 @@ class _RegisterViewState extends State<RegisterView> {
       child: Scaffold(
         backgroundColor: Pallete.whiteColor,
         body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: Dimension.bodyPadding,
             child: Column(

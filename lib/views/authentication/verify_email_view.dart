@@ -19,6 +19,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
     return Scaffold(
       appBar: AppBar(title: Text(context.loc.verify_email)),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
