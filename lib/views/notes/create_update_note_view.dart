@@ -1,11 +1,13 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:mynotes/constants/dimensions.dart';
+import 'package:mynotes/constants/pallete.dart';
+import 'package:mynotes/constants/text_styling.dart';
 import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/utilities/dialog/cannot_share_empty_note.dart';
 import 'package:mynotes/utilities/generics/get_arguments.dart';
-import 'package:mynotes/utilities/dialog/show_circular_loading.dart';
 import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/services/cloud/firebase_cloud_storage.dart';
 import 'package:share_plus/share_plus.dart';
@@ -103,39 +105,94 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(context.loc.note),
-        actions: [
-          IconButton(
-              onPressed: () async {
-                final text = _textController.text;
-                if (_note == null || text.isEmpty) {
-                  await showCannotShareEmptyNoteDialog(context);
-                } else {
-                  Share.share(text);
-                }
-              },
-              icon: Icon(Icons.adaptive.share))
+      backgroundColor: Pallete.whiteColor,
+      body: Column(
+        children: [
+          Container(
+            padding: Dimension.bodyPadding,
+            margin: const EdgeInsets.only(bottom: 0),
+            alignment: Alignment.bottomCenter,
+            height: 150,
+            decoration: const BoxDecoration(
+              color: Pallete.darkMidColor,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  child: Icon(
+                    Icons.adaptive.arrow_back,
+                    size: 29,
+                  ),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                Text(
+                  context.loc.note,
+                  style: TStyle.heading2
+                      .copyWith(fontSize: 25, fontWeight: FontWeight.bold),
+                ),
+                GestureDetector(
+                  child: Icon(
+                    Icons.adaptive.share,
+                    size: 29,
+                  ),
+                  onTap: () async {
+                    final text = _textController.text;
+                    if (_note == null || text.isEmpty) {
+                      await showCannotShareEmptyNoteDialog(context);
+                    } else {
+                      Share.share(text);
+                    }
+                  },
+                ),
+              ],
+            ),
+          ),
+          SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              child: FutureBuilder(
+                future: createOrGetExistingNote(context),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.done:
+                      log("New note info: $_note", name: tag);
+                      _setupTextControllerlistener();
+
+                      return TextField(
+                        decoration: InputDecoration(
+                          hintText: context.loc.start_typing_your_note,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide.none,
+                          ),
+                          filled: true,
+                          fillColor: Pallete.lightColor.withOpacity(0.1),
+                        ),
+                        controller: _textController,
+                        cursorColor: Pallete.darkColor,
+                        autofocus: true,
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        textCapitalization: TextCapitalization.sentences,
+                        style: TStyle.bodyMedium,
+                      );
+                    default:
+                      return const Center(
+                          child: CircularProgressIndicator.adaptive());
+                  }
+                },
+              ),
+            ),
+          ),
         ],
-      ),
-      body: FutureBuilder(
-        future: createOrGetExistingNote(context),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              log("New note info: $_note", name: tag);
-              _setupTextControllerlistener();
-              return TextField(
-                controller: _textController,
-                keyboardType: TextInputType.multiline,
-                maxLines: null,
-                decoration: InputDecoration(
-                    hintText: context.loc.start_typing_your_note),
-              );
-            default:
-              return showCircularLoading();
-          }
-        },
       ),
     );
   }
