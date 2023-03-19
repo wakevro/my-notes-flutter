@@ -63,9 +63,11 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
       },
       child: Scaffold(
         body: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: Dimension.bodyPadding,
             child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
               child: Column(
                 children: [
                   const SizedBox(
@@ -116,94 +118,89 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Center(
-                    child: Column(
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            final email = _email.text;
-                            context
-                                .read<AuthBloc>()
-                                .add(AuthEventForgotPassword(email: email));
-                          },
-                          child: Container(
-                            height: 60,
-                            padding: const EdgeInsets.only(
-                                left: 15, top: 5, right: 15, bottom: 5),
-                            decoration: BoxDecoration(
-                              color: Pallete.darkColor,
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: const [
-                                BoxShadow(
-                                    color: Color.fromRGBO(138, 192, 210, 0.3),
-                                    blurRadius: 10,
-                                    offset: Offset(0, 5)),
-                              ],
-                            ),
+                  Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          final email = _email.text;
+                          context
+                              .read<AuthBloc>()
+                              .add(AuthEventForgotPassword(email: email));
+                        },
+                        child: Container(
+                          height: 60,
+                          width: double.infinity,
+                          // padding: const EdgeInsets.only(
+                          //     left: 30, top: 5, right: 30, bottom: 5),
+                          decoration: BoxDecoration(
+                            color: Pallete.darkColor,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: const [
+                              BoxShadow(
+                                  color: Color.fromRGBO(138, 192, 210, 0.3),
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5)),
+                            ],
+                          ),
+                          child: Center(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Expanded(
-                                  child: Text(
-                                    context.loc.send_password_reset,
-                                    style: TStyle.lightButton,
-                                  ),
+                                Text(
+                                  context.loc.send,
+                                  style: TStyle.lightButton,
                                 ),
-                                const Expanded(
-                                  child: SizedBox(
-                                    width: 10,
-                                  ),
+                                const SizedBox(
+                                  width: 10,
                                 ),
-                                Expanded(
-                                  child: Icon(
-                                    Icons.adaptive.arrow_forward,
-                                    color: Pallete.whiteColor,
-                                  ),
+                                Icon(
+                                  Icons.adaptive.arrow_forward,
+                                  color: Pallete.whiteColor,
                                 )
                               ],
                             ),
                           ),
                         ),
-                        const SizedBox(
-                          height: 15,
+                      ),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        height: 60,
+                        padding: const EdgeInsets.only(
+                            left: 0, top: 5, right: 0, bottom: 5),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(0),
+                          boxShadow: const [
+                            BoxShadow(
+                                color: Color.fromRGBO(138, 192, 210, 0.3),
+                                blurRadius: 10,
+                                offset: Offset(0, 1)),
+                          ],
                         ),
-                        Container(
-                          height: 60,
-                          padding: const EdgeInsets.only(
-                              left: 0, top: 5, right: 0, bottom: 5),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(0),
-                            boxShadow: const [
-                              BoxShadow(
-                                  color: Color.fromRGBO(138, 192, 210, 0.3),
-                                  blurRadius: 10,
-                                  offset: Offset(0, 1)),
-                            ],
-                          ),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                ),
-                                side: const BorderSide(
-                                    width: 2, color: Pallete.accentColor),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0),
                               ),
-                              onPressed: () {
-                                context
-                                    .read<AuthBloc>()
-                                    .add(const AuthEventLogOut());
-                              },
-                              child: Text(
-                                context.loc.back_to_login,
-                                style: TStyle.darkButton,
-                              ),
+                              side: const BorderSide(
+                                  width: 2, color: Pallete.accentColor),
+                            ),
+                            onPressed: () {
+                              context
+                                  .read<AuthBloc>()
+                                  .add(const AuthEventLogOut());
+                            },
+                            child: Text(
+                              context.loc.back_to_login,
+                              style: TStyle.darkButton,
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ],
               ),
