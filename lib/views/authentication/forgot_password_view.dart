@@ -130,8 +130,6 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                         child: Container(
                           height: 60,
                           width: double.infinity,
-                          // padding: const EdgeInsets.only(
-                          //     left: 30, top: 5, right: 30, bottom: 5),
                           decoration: BoxDecoration(
                             color: Pallete.darkColor,
                             borderRadius: BorderRadius.circular(20),
