@@ -84,7 +84,7 @@ class _RegisterViewState extends State<RegisterView> {
                   height: 30,
                 ),
                 Text(
-                  "Register to create notes on the go!",
+                  context.loc.register_to_create_notes,
                   style: TStyle.heading1,
                 ),
                 const SizedBox(

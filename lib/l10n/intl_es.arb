@@ -11,6 +11,8 @@
     "verify_email": "Verificar correo electrónico",
     "register": "Registrar",
     "restart": "Reiniciar",
+    "share": "Compartir",
+    "empty": "",
     "welcome_back": "¡Bienvenido de nuevo!",
     "email": "Correo electrónico",
     "password": "Contraseña",

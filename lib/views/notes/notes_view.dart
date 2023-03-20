@@ -92,7 +92,7 @@ class _NotesViewState extends State<NotesView> {
                                   .copyWith(color: Pallete.whiteColor),
                             );
                           }
-                          return const Text("");
+                          return Text(context.loc.empty);
                         }),
                   ],
                 ),

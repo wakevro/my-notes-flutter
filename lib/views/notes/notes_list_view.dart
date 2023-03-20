@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mynotes/constants/dimensions.dart';
 import 'package:mynotes/constants/pallete.dart';
 import 'package:mynotes/constants/text_styling.dart';
+import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/utilities/dialog/delete_dialog.dart';
+import 'package:share_plus/share_plus.dart';
 
 typedef NoteCallback = void Function(CloudNote note);
 
@@ -52,44 +55,70 @@ class ListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      child: Container(
-        margin: const EdgeInsets.only(top: 0, bottom: 8),
-        padding: Dimension.itemPadding,
-        decoration: BoxDecoration(
-            color: Pallete.lightColor.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(15)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Slidable(
+        key: Key(context.loc.delete),
+        startActionPane: ActionPane(
+          motion: const StretchMotion(),
           children: [
-            Expanded(
-              child: Row(
-                children: [
-                  const Icon(CupertinoIcons.folder_fill),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  Expanded(
-                    child: Text(
-                      noteText,
-                      maxLines: 1,
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      style: TStyle.bodyMedium,
-                    ),
-                  ),
-                ],
-              ),
+            SlidableAction(
+              backgroundColor: Pallete.accentColor,
+              icon: Icons.adaptive.share,
+              label: context.loc.share,
+              onPressed: (context) {
+                Share.share(noteText);
+              },
             ),
-            IconButton(
-              onPressed: () async {
+          ],
+        ),
+        endActionPane: ActionPane(
+          motion: const StretchMotion(),
+          dismissible: DismissiblePane(
+            onDismissed: () => onDeleteNote(note),
+          ),
+          children: [
+            SlidableAction(
+              backgroundColor: Pallete.darkColor,
+              icon: Icons.delete,
+              label: context.loc.delete,
+              onPressed: (context) async {
                 final shouldDelete = await showDeleteDialog(context);
                 if (shouldDelete) {
                   onDeleteNote(note);
                 }
               },
-              icon: const Icon(Icons.delete),
             ),
           ],
+        ),
+        child: Container(
+          margin: const EdgeInsets.only(top: 0, bottom: 8),
+          padding: Dimension.itemPadding,
+          decoration: BoxDecoration(
+              color: Pallete.lightColor.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(15)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    const Icon(CupertinoIcons.folder_fill),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    Expanded(
+                      child: Text(
+                        noteText,
+                        maxLines: 1,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: TStyle.bodyMedium,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       onTap: () {
