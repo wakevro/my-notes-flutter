@@ -12,6 +12,8 @@
     "register": "Register",
     "restart": "Restart",
     "welcome_back": "Welcome back!",
+    "share": "Share",
+    "empty": "",
     "email": "E-mail",
     "password": "Password",
     "start_typing_your_note": "Start typing your note",
