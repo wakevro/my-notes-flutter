@@ -4,8 +4,11 @@ import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/services/auth/bloc/auth_block.dart';
 import 'package:mynotes/services/auth/firebase_auth_provider.dart';
 import 'package:mynotes/views/home/home_view.dart';
+import 'package:mynotes/views/notes/archived_note_view.dart';
+
 import 'package:mynotes/views/notes/create_update_note_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:mynotes/views/notes/deleted_note_view.dart';
 
 const tag = "HomePage";
 
@@ -25,6 +28,8 @@ void main() {
       ),
       routes: {
         createUpdateNoteRoute: (context) => const CreateUpdateNoteView(),
+        archivedViewRoute: (context) => const ArchivedNoteView(),
+        deletedViewRoute: (context) => const DeletedNoteView()
       },
       debugShowCheckedModeBanner: false,
     ),

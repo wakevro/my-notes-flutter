@@ -6,5 +6,6 @@ class Pallete {
   static const Color darkMidColor = Color.fromRGBO(65, 72, 85, 1);
   static const Color accentColor = Color.fromRGBO(113, 159, 250, 1);
   static const Color whiteColor = Color.fromRGBO(248, 248, 248, 1);
-  static const Color testColor = Color.fromRGBO(13, 93, 50, 1);
+  static const Color redColor = Color.fromRGBO(221, 34, 34, 1);
+  static const Color purpleColor = Color.fromRGBO(102, 31, 143, 1);
 }

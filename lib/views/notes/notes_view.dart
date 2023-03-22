@@ -7,6 +7,8 @@ import 'package:mynotes/constants/pallete.dart';
 import 'package:mynotes/constants/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/text_styling.dart';
+import 'package:mynotes/drawer_head.dart';
+import 'package:mynotes/drawer_item.dart';
 import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/auth/bloc/auth_block.dart';
@@ -33,6 +35,8 @@ class NotesView extends StatefulWidget {
 }
 
 class _NotesViewState extends State<NotesView> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   late final FirebaseCloudStorage _noteService;
   String get userEmail => AuthService.firebase().currentUser!.email;
   String get userId => AuthService.firebase().currentUser!.id;
@@ -48,6 +52,7 @@ class _NotesViewState extends State<NotesView> {
     bool isIos = Theme.of(context).platform == TargetPlatform.iOS;
     String savedUserEmail = userEmail;
     return Scaffold(
+      key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pushNamed(createUpdateNoteRoute);
@@ -56,97 +61,146 @@ class _NotesViewState extends State<NotesView> {
         child: const Icon(Icons.edit_outlined),
       ),
       backgroundColor: Pallete.whiteColor,
+      drawer: Drawer(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const DrawerHead(),
+              Column(
+                children: [
+                  const Divider(
+                    thickness: 1,
+                    height: 0,
+                  ),
+                  DrawerItem(
+                    iconData: Icons.archive_rounded,
+                    iconName: context.loc.archived,
+                    route: archivedViewRoute,
+                  ),
+                  DrawerItem(
+                    iconData: Icons.delete,
+                    iconName: context.loc.recently_deleted,
+                    route: deletedViewRoute,
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Container(
-            padding: Dimension.bodyPadding,
-            margin: const EdgeInsets.only(bottom: 0),
             alignment: Alignment.bottomCenter,
-            height: 170,
+            padding: Dimension.bodyPadding,
+            height: 200,
             decoration: const BoxDecoration(
               color: Pallete.darkMidColor,
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      context.loc.notes,
-                      style:
-                          TStyle.heading1.copyWith(color: Pallete.whiteColor),
-                    ),
-                    StreamBuilder(
-                        stream: _noteService
-                            .allNotes(ownerUserID: userId)
-                            .getLength,
-                        builder: (context, AsyncSnapshot<int> snapshot) {
-                          if (snapshot.hasData) {
-                            final noteCount = snapshot.data ?? 0;
-                            final text = context.loc.notes_title(noteCount);
-                            return Text(
-                              text,
-                              style: TStyle.heading2
-                                  .copyWith(color: Pallete.whiteColor),
-                            );
-                          }
-                          return Text(context.loc.empty);
-                        }),
-                  ],
+                InkWell(
+                  onTap: () {
+                    // SHOW DRAWER
+                    if (_scaffoldKey.currentState != null) {
+                      _scaffoldKey.currentState!.openDrawer();
+                    }
+                  },
+                  child: const Icon(
+                    Icons.menu,
+                    color: Pallete.whiteColor,
+                    size: 35,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      width: isIos ? 40 : 30,
-                      height: isIos ? 30 : 40,
-                      decoration: BoxDecoration(
-                          color: Pallete.darkColor.withOpacity(0.3),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: FractionallySizedBox(
-                        widthFactor: 1.5,
-                        heightFactor: 1.5,
-                        child: PlatformPopupMenu(
-                          options: [
-                            PopupMenuOption(
-                              label: context.loc.logout_button,
-                              onTap: (p0) async {
-                                final shouldLogout =
-                                    await showLogoutDialog(context);
-                                log("User clicked '$shouldLogout' for log out dialog",
-                                    name: tag);
-                                if (shouldLogout) {
-                                  log("Starting to sign out.....", name: tag);
-                                  if (!mounted) return;
-                                  context.read<AuthBloc>().add(
-                                        const AuthEventLogOut(),
-                                      );
-                                  log("User signed out of email: $savedUserEmail",
-                                      name: tag);
-                                }
-                              },
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.loc.notes,
+                          style: TStyle.heading1
+                              .copyWith(color: Pallete.whiteColor),
+                        ),
+                        StreamBuilder(
+                            stream: _noteService
+                                .allNotes(ownerUserID: userId)
+                                .getLength,
+                            builder: (context, AsyncSnapshot<int> snapshot) {
+                              if (snapshot.hasData) {
+                                final noteCount = snapshot.data ?? 0;
+                                final text = context.loc.notes_title(noteCount);
+                                return Text(
+                                  text,
+                                  style: TStyle.heading2
+                                      .copyWith(color: Pallete.whiteColor),
+                                );
+                              }
+                              return Text(context.loc.empty);
+                            }),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          width: isIos ? 40 : 30,
+                          height: isIos ? 30 : 40,
+                          decoration: BoxDecoration(
+                              color: Pallete.darkColor.withOpacity(0.3),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: FractionallySizedBox(
+                            widthFactor: 1.5,
+                            heightFactor: 1.5,
+                            child: PlatformPopupMenu(
+                              options: [
+                                PopupMenuOption(
+                                  label: context.loc.logout_button,
+                                  onTap: (p0) async {
+                                    final shouldLogout =
+                                        await showLogoutDialog(context);
+                                    log("User clicked '$shouldLogout' for log out dialog",
+                                        name: tag);
+                                    if (shouldLogout) {
+                                      log("Starting to sign out.....",
+                                          name: tag);
+                                      if (!mounted) return;
+                                      context.read<AuthBloc>().add(
+                                            const AuthEventLogOut(),
+                                          );
+                                      log("User signed out of email: $savedUserEmail",
+                                          name: tag);
+                                    }
+                                  },
+                                ),
+                              ],
+                              icon: PlatformWidget(
+                                cupertino: (context, platform) {
+                                  return const Icon(
+                                    CupertinoIcons.ellipsis,
+                                    size: 30,
+                                  );
+                                },
+                                material: (context, platform) {
+                                  return const Icon(
+                                    Icons.more_vert,
+                                    size: 30,
+                                  );
+                                },
+                              ),
                             ),
-                          ],
-                          icon: PlatformWidget(
-                            cupertino: (context, platform) {
-                              return const Icon(
-                                CupertinoIcons.ellipsis,
-                                size: 30,
-                              );
-                            },
-                            material: (context, platform) {
-                              return const Icon(
-                                Icons.more_vert,
-                                size: 30,
-                              );
-                            },
                           ),
                         ),
-                      ),
-                    ),
+                      ],
+                    )
                   ],
-                )
+                ),
               ],
             ),
           ),

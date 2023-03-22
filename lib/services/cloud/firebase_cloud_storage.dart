@@ -25,12 +25,16 @@ class FirebaseCloudStorage {
     final document = await notes.add({
       ownerUserIdFieldName: ownerUserid,
       textFieldName: "",
+      archivedFieldName: false,
+      deletedFieldName: false,
     });
     final fetchedNote = await document.get();
     return CloudNote(
       documentId: fetchedNote.id,
       ownerUserId: ownerUserid,
       text: "",
+      archived: false,
+      deleted: false,
     );
   }
 
