@@ -14,3 +14,16 @@ Future<bool> showDeleteDialog(BuildContext context) {
     (value) => value ?? false,
   );
 }
+
+Future<bool> showFinalDeleteDialog(BuildContext context) {
+  return showGenericDialog<bool>(
+      context: context,
+      title: context.loc.delete,
+      content: context.loc.final_delete_note_prompt,
+      optionsBuilder: () => {
+            context.loc.cancel: false,
+            context.loc.delete: true,
+          }).then(
+    (value) => value ?? false,
+  );
+}

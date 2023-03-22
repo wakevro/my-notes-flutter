@@ -13,10 +13,51 @@ class FirebaseCloudStorage {
 
   Stream<Iterable<CloudNote>> allNotes({required String ownerUserID}) {
     final allNotes = notes
-        .where(ownerUserIdFieldName, isEqualTo: ownerUserID)
+        .where(
+          ownerUserIdFieldName,
+          isEqualTo: ownerUserID,
+        )
+        .where(
+          archivedFieldName,
+          isEqualTo: false,
+        )
+        .where(
+          deletedFieldName,
+          isEqualTo: false,
+        )
         .snapshots()
         .map((event) => event.docs.map((doc) => CloudNote.fromSnapshot(doc)));
     return allNotes;
+  }
+
+  Stream<Iterable<CloudNote>> archivedNotes({required String ownerUserID}) {
+    final archivedNotes = notes
+        .where(
+          ownerUserIdFieldName,
+          isEqualTo: ownerUserID,
+        )
+        .where(
+          archivedFieldName,
+          isEqualTo: true,
+        )
+        .snapshots()
+        .map((event) => event.docs.map((doc) => CloudNote.fromSnapshot(doc)));
+    return archivedNotes;
+  }
+
+  Stream<Iterable<CloudNote>> deletedNotes({required String ownerUserID}) {
+    final deletedNotes = notes
+        .where(
+          ownerUserIdFieldName,
+          isEqualTo: ownerUserID,
+        )
+        .where(
+          deletedFieldName,
+          isEqualTo: true,
+        )
+        .snapshots()
+        .map((event) => event.docs.map((doc) => CloudNote.fromSnapshot(doc)));
+    return deletedNotes;
   }
 
   Future<CloudNote> createNewNote({
@@ -58,6 +99,38 @@ class FirebaseCloudStorage {
       await notes.doc(documentId).delete();
     } catch (e) {
       throw CouldNotDeleteNoteException();
+    }
+  }
+
+  Future<void> archiveNote({
+    required String documentId,
+    required bool value,
+  }) async {
+    try {
+      await notes.doc(documentId).update(
+        {
+          archivedFieldName: value,
+          deletedFieldName: false,
+        },
+      );
+    } catch (e) {
+      throw CouldNotArchiveNoteException();
+    }
+  }
+
+  Future<void> temporarilyDeleteNote({
+    required String documentId,
+    required bool value,
+  }) async {
+    try {
+      await notes.doc(documentId).update(
+        {
+          deletedFieldName: value,
+          archivedFieldName: false,
+        },
+      );
+    } catch (e) {
+      throw CouldNotTemporarilyDeleteNoteException();
     }
   }
 }

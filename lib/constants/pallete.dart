@@ -8,4 +8,5 @@ class Pallete {
   static const Color whiteColor = Color.fromRGBO(248, 248, 248, 1);
   static const Color redColor = Color.fromRGBO(221, 34, 34, 1);
   static const Color purpleColor = Color.fromRGBO(102, 31, 143, 1);
+  static const Color greenColor = Color.fromRGBO(26, 169, 24, 1);
 }

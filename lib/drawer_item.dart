@@ -47,7 +47,6 @@ class DrawerItem extends StatelessWidget {
           ],
         ),
         onTap: () {
-          // log(route, name: tag);
           Navigator.of(context).pushNamed(route);
         },
       ),
