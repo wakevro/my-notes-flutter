@@ -4,7 +4,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:mynotes/constants/dimensions.dart';
 import 'package:mynotes/constants/pallete.dart';
 import 'package:mynotes/constants/text_styling.dart';
-import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/utilities/dialog/delete_dialog.dart';
 import 'package:share_plus/share_plus.dart';
@@ -56,30 +55,27 @@ class ListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Slidable(
-        key: Key(context.loc.delete),
-        startActionPane: ActionPane(
+        key: UniqueKey(),
+        endActionPane: ActionPane(
           motion: const StretchMotion(),
           children: [
             SlidableAction(
               backgroundColor: Pallete.accentColor,
               icon: Icons.adaptive.share,
-              label: context.loc.share,
               onPressed: (context) {
                 Share.share(noteText);
               },
             ),
-          ],
-        ),
-        endActionPane: ActionPane(
-          motion: const StretchMotion(),
-          dismissible: DismissiblePane(
-            onDismissed: () => onDeleteNote(note),
-          ),
-          children: [
             SlidableAction(
-              backgroundColor: Pallete.darkColor,
+              backgroundColor: Pallete.purpleColor,
+              icon: Icons.archive,
+              onPressed: (context) {
+                Share.share(noteText);
+              },
+            ),
+            SlidableAction(
+              backgroundColor: Pallete.redColor,
               icon: Icons.delete,
-              label: context.loc.delete,
               onPressed: (context) async {
                 final shouldDelete = await showDeleteDialog(context);
                 if (shouldDelete) {

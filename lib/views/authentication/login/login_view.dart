@@ -165,7 +165,7 @@ class _LoginViewState extends State<LoginView> {
                 Center(
                   child: Column(
                     children: [
-                      GestureDetector(
+                      InkWell(
                         onTap: () {
                           log("Clicked on Login Button\nEmail: ${_email.text} \nPassword: ${_password.text}",
                               name: tag);
