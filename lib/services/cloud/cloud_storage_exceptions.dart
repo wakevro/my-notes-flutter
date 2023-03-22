@@ -14,3 +14,9 @@ class CouldNotUpdateNoteException extends CloudStorageException {}
 
 // D in CRUD
 class CouldNotDeleteNoteException extends CloudStorageException {}
+
+// Archive
+class CouldNotArchiveNoteException extends CloudStorageException {}
+
+// Temporarily Delete
+class CouldNotTemporarilyDeleteNoteException extends CloudStorageException {}

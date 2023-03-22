@@ -6,7 +6,8 @@ import 'package:mynotes/constants/pallete.dart';
 import 'package:mynotes/constants/text_styling.dart';
 import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
-import 'package:mynotes/utilities/dialog/cannot_share_empty_note.dart';
+import 'package:mynotes/utilities/dialog/cannot_edit_note_dialog.dart';
+import 'package:mynotes/utilities/dialog/cannot_share_empty_note_dialog.dart';
 import 'package:mynotes/utilities/generics/get_arguments.dart';
 import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/services/cloud/firebase_cloud_storage.dart';
@@ -44,13 +45,13 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   }
 
   Future<CloudNote> createOrGetExistingNote(BuildContext context) async {
-    final widgetNote = context.getArgument<CloudNote>();
+    final widgetNote = context.getArgument<List>();
 
     if (widgetNote != null) {
       log("There is an existing note", name: tag);
-      _note = widgetNote;
-      _textController.text = widgetNote.text;
-      return widgetNote;
+      _note = widgetNote[0];
+      _textController.text = widgetNote[0].text;
+      return widgetNote[0];
     }
 
     final existingNote = _note;
@@ -161,28 +162,44 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
                     case ConnectionState.done:
                       log("New note info: $_note", name: tag);
                       _setupTextControllerlistener();
-
-                      return TextField(
-                        decoration: InputDecoration(
-                          hintText: context.loc.start_typing_your_note,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
+                      final gottenArgument = context.getArgument<List>();
+                      return GestureDetector(
+                        onTap: () async {
+                          if (!gottenArgument?[1]) {
+                            final shouldUnarchive =
+                                await showCannotEditNoteDialog(context);
+                            if (shouldUnarchive) {
+                              _noteService.archiveNote(
+                                  documentId: _note!.documentId, value: false);
+                              if (!mounted) return;
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                            }
+                          }
+                        },
+                        child: TextField(
+                          enabled: gottenArgument?[1],
+                          decoration: InputDecoration(
+                            hintText: context.loc.start_typing_your_note,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            filled: true,
+                            fillColor: Pallete.lightColor.withOpacity(0.1),
                           ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          fillColor: Pallete.lightColor.withOpacity(0.1),
+                          controller: _textController,
+                          cursorColor: Pallete.darkColor,
+                          autofocus: true,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
+                          textCapitalization: TextCapitalization.sentences,
+                          style: TStyle.bodyMedium,
                         ),
-                        controller: _textController,
-                        cursorColor: Pallete.darkColor,
-                        autofocus: true,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        textCapitalization: TextCapitalization.sentences,
-                        style: TStyle.bodyMedium,
                       );
                     default:
                       return const Center(

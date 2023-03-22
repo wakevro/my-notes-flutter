@@ -19,6 +19,10 @@ import 'package:mynotes/utilities/dialog/logout_dialog.dart';
 import 'package:mynotes/utilities/dialog/show_circular_loading.dart';
 import 'package:mynotes/views/notes/notes_list_view.dart';
 
+
+
+
+
 const tag = "NotesView";
 
 extension Count<T extends Iterable> on Stream<T> {
@@ -50,7 +54,6 @@ class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     bool isIos = Theme.of(context).platform == TargetPlatform.iOS;
-    String savedUserEmail = userEmail;
     return Scaffold(
       key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
@@ -103,7 +106,6 @@ class _NotesViewState extends State<NotesView> {
               children: [
                 InkWell(
                   onTap: () {
-                    // SHOW DRAWER
                     if (_scaffoldKey.currentState != null) {
                       _scaffoldKey.currentState!.openDrawer();
                     }
@@ -165,17 +167,11 @@ class _NotesViewState extends State<NotesView> {
                                   onTap: (p0) async {
                                     final shouldLogout =
                                         await showLogoutDialog(context);
-                                    log("User clicked '$shouldLogout' for log out dialog",
-                                        name: tag);
                                     if (shouldLogout) {
-                                      log("Starting to sign out.....",
-                                          name: tag);
                                       if (!mounted) return;
                                       context.read<AuthBloc>().add(
                                             const AuthEventLogOut(),
                                           );
-                                      log("User signed out of email: $savedUserEmail",
-                                          name: tag);
                                     }
                                   },
                                 ),
@@ -219,12 +215,21 @@ class _NotesViewState extends State<NotesView> {
                       log("Notes: ${printableNotes.toString()}", name: tag);
                       return NotesListView(
                         notes: allNotes,
-                        onDeleteNote: (note) async {
-                          _noteService.deleteNote(documentId: note.documentId);
+                        view: "notes",
+                        onTemporaryDeleteNote: (note) async {
+                          _noteService.temporarilyDeleteNote(
+                              documentId: note.documentId,
+                              value: !note.deleted);
                         },
+                        onArchiveNote: (note) async {
+                          _noteService.archiveNote(
+                              documentId: note.documentId,
+                              value: !note.archived);
+                        },
+                        onFinalDelete: (note) {},
                         onTap: (note) {
                           Navigator.of(context).pushNamed(createUpdateNoteRoute,
-                              arguments: note);
+                              arguments: [note, true]);
                         },
                       );
                     } else {
