@@ -20,6 +20,10 @@ class AuthEventLogOut extends AuthEvent {
   const AuthEventLogOut();
 }
 
+class AuthEventDeleteAccount extends AuthEvent {
+  const AuthEventDeleteAccount();
+}
+
 class AuthEventSendEmailVerification extends AuthEvent {
   const AuthEventSendEmailVerification();
 }

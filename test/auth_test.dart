@@ -109,6 +109,16 @@ void main() {
             throwsA(const TypeMatcher<UserNotFoundAuthException>()));
       },
     );
+
+    test(
+      "Should be able to delete account",
+      () async {
+        final result = provider.deleteAccount();
+        final user = provider.currentUser;
+        expect(user, isNotNull);
+        expect(result, isA<Future<bool>>());
+      },
+    );
   });
 }
 
@@ -180,5 +190,12 @@ class MockAuthProvider implements AuthProvider {
     if (!isInitialized) throw NotInitializedException();
     if (toEmail == "invalidemail") throw InvalidEmailAuthException();
     if (toEmail == "usernotfound") throw UserNotFoundAuthException();
+  }
+
+  @override
+  Future<bool> deleteAccount() {
+    if (!isInitialized) throw NotInitializedException();
+    if (_user == null) throw UserNotLoggedInAuthException();
+    return Future.value(true);
   }
 }

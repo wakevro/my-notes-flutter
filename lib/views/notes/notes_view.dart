@@ -1,27 +1,17 @@
 import 'dart:developer';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mynotes/constants/dimensions.dart';
 import 'package:mynotes/constants/pallete.dart';
-import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/router/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/text_styling.dart';
-import 'package:mynotes/drawer_head.dart';
-import 'package:mynotes/drawer_item.dart';
+import 'package:mynotes/utilities/widgets/drawer_head.dart';
+import 'package:mynotes/utilities/widgets/drawer_item.dart';
 import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
-import 'package:mynotes/services/auth/bloc/auth_block.dart';
-import 'package:mynotes/services/auth/bloc/auth_event.dart';
 import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/services/cloud/firebase_cloud_storage.dart';
-import 'package:mynotes/utilities/dialog/logout_dialog.dart';
 import 'package:mynotes/utilities/dialog/show_circular_loading.dart';
 import 'package:mynotes/views/notes/notes_list_view.dart';
-
-
-
-
 
 const tag = "NotesView";
 
@@ -53,7 +43,6 @@ class _NotesViewState extends State<NotesView> {
 
   @override
   Widget build(BuildContext context) {
-    bool isIos = Theme.of(context).platform == TargetPlatform.iOS;
     return Scaffold(
       key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
@@ -67,25 +56,60 @@ class _NotesViewState extends State<NotesView> {
       drawer: Drawer(
         child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.max,
             children: [
-              const DrawerHead(),
-              Column(
-                children: [
-                  const Divider(
-                    thickness: 1,
-                    height: 0,
-                  ),
-                  DrawerItem(
-                    iconData: Icons.archive_rounded,
-                    iconName: context.loc.archived,
-                    route: archivedViewRoute,
-                  ),
-                  DrawerItem(
-                    iconData: Icons.delete,
-                    iconName: context.loc.recently_deleted,
-                    route: deletedViewRoute,
-                  ),
-                ],
+              DrawerHead(
+                title: context.loc.folders,
+                filePath: "assets/images/note.png",
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height - 230,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      children: [
+                        const Divider(
+                          thickness: 1,
+                          height: 0,
+                        ),
+                        InkWell(
+                          child: DrawerItem(
+                            iconData: Icons.archive_rounded,
+                            iconName: context.loc.archived,
+                          ),
+                          onTap: () => Navigator.of(context)
+                              .pushNamed(archivedViewRoute),
+                        ),
+                        InkWell(
+                          child: DrawerItem(
+                            iconData: Icons.delete,
+                            iconName: context.loc.recently_deleted,
+                          ),
+                          onTap: () =>
+                              Navigator.of(context).pushNamed(deletedViewRoute),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      children: [
+                        const Divider(
+                          thickness: 1,
+                          height: 0,
+                        ),
+                        InkWell(
+                          child: DrawerItem(
+                            iconData: Icons.settings,
+                            iconName: context.loc.settings,
+                          ),
+                          onTap: () => Navigator.of(context)
+                              .pushNamed(settingsViewRoute),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               )
             ],
           ),
@@ -94,13 +118,13 @@ class _NotesViewState extends State<NotesView> {
       body: Column(
         children: [
           Container(
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.bottomLeft,
             padding: Dimension.bodyPadding,
-            height: 200,
             decoration: const BoxDecoration(
               color: Pallete.darkMidColor,
             ),
             child: Column(
+              mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -149,52 +173,6 @@ class _NotesViewState extends State<NotesView> {
                             }),
                       ],
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          width: isIos ? 40 : 30,
-                          height: isIos ? 30 : 40,
-                          decoration: BoxDecoration(
-                              color: Pallete.darkColor.withOpacity(0.3),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: FractionallySizedBox(
-                            widthFactor: 1.5,
-                            heightFactor: 1.5,
-                            child: PlatformPopupMenu(
-                              options: [
-                                PopupMenuOption(
-                                  label: context.loc.logout_button,
-                                  onTap: (p0) async {
-                                    final shouldLogout =
-                                        await showLogoutDialog(context);
-                                    if (shouldLogout) {
-                                      if (!mounted) return;
-                                      context.read<AuthBloc>().add(
-                                            const AuthEventLogOut(),
-                                          );
-                                    }
-                                  },
-                                ),
-                              ],
-                              icon: PlatformWidget(
-                                cupertino: (context, platform) {
-                                  return const Icon(
-                                    CupertinoIcons.ellipsis,
-                                    size: 30,
-                                  );
-                                },
-                                material: (context, platform) {
-                                  return const Icon(
-                                    Icons.more_vert,
-                                    size: 30,
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
                   ],
                 ),
               ],

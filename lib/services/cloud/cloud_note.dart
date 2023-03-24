@@ -22,8 +22,12 @@ class CloudNote {
       : documentId = snapshot.id,
         ownerUserId = snapshot.data()[ownerUserIdFieldName] as String,
         text = snapshot.data()[textFieldName] as String,
-        archived = snapshot.data()[archivedFieldName] as bool,
-        deleted = snapshot.data()[deletedFieldName] as bool;
+        archived = snapshot.data()[archivedFieldName] != null
+            ? snapshot.data()[archivedFieldName] as bool
+            : false,
+        deleted = snapshot.data()[deletedFieldName] != null
+            ? snapshot.data()[deletedFieldName] as bool
+            : false;
 
   @override
   String toString() =>

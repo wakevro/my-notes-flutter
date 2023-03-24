@@ -9,7 +9,9 @@ String tag = "AuthBlock";
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(AuthProvider provider)
-      : super(const AuthStateUninitialized(isLoading: true)) {
+      : super(
+          const AuthStateUninitialized(isLoading: true),
+        ) {
     // send email authentication
     on<AuthEventSendEmailVerification>(
       (event, emit) async {
@@ -112,10 +114,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             exception: null, hasSentEmail: false, isLoading: false));
         final email = event.email;
         if (email == null) {
-          return; // user just wants to go to forgot password screen
+          return; 
         }
         // user wantss to actually send a forgot password email
-
         emit(const AuthStateForgotPassword(
             exception: null, hasSentEmail: false, isLoading: true));
 
@@ -135,6 +136,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             exception: exception,
             hasSentEmail: didSendEmail,
             isLoading: false));
+      },
+    );
+
+    // on delete account
+    on<AuthEventDeleteAccount>(
+      (event, emit) async {
+        try {
+          log("Deleting user account", name: tag);
+          final deleted = await provider.deleteAccount();
+          if (deleted) {
+            log("User deleted", name: tag);
+          }
+          emit(const AuthStateLoggedOut(exception: null, isLoading: false));
+        } on Exception catch (exception) {
+          log("Delete account has error: ${exception.toString()}", name: tag);
+          emit(const AuthStateLoggedOut(exception: null, isLoading: false));
+        }
       },
     );
   }

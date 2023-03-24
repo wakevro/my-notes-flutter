@@ -44,13 +44,13 @@ class _DeletedNoteViewState extends State<DeletedNoteView> {
       body: Column(
         children: [
           Container(
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.bottomLeft,
             padding: Dimension.bodyPadding,
-            height: 200,
             decoration: const BoxDecoration(
               color: Pallete.darkMidColor,
             ),
             child: Column(
+              mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -67,36 +67,31 @@ class _DeletedNoteViewState extends State<DeletedNoteView> {
                 const SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.loc.recently_deleted,
-                          style: TStyle.heading1
-                              .copyWith(color: Pallete.whiteColor),
-                        ),
-                        StreamBuilder(
-                            stream: _noteService
-                                .deletedNotes(ownerUserID: userId)
-                                .getLength,
-                            builder: (context, AsyncSnapshot<int> snapshot) {
-                              if (snapshot.hasData) {
-                                final noteCount = snapshot.data ?? 0;
-                                final text = context.loc.notes_title(noteCount);
-                                return Text(
-                                  text,
-                                  style: TStyle.heading2
-                                      .copyWith(color: Pallete.whiteColor),
-                                );
-                              }
-                              return Text(context.loc.empty);
-                            }),
-                      ],
+                    Text(
+                      context.loc.recently_deleted,
+                      style:
+                          TStyle.heading1.copyWith(color: Pallete.whiteColor),
                     ),
+                    StreamBuilder(
+                        stream: _noteService
+                            .deletedNotes(ownerUserID: userId)
+                            .getLength,
+                        builder: (context, AsyncSnapshot<int> snapshot) {
+                          if (snapshot.hasData) {
+                            final noteCount = snapshot.data ?? 0;
+                            final text = context.loc.notes_title(noteCount);
+                            return Text(
+                              text,
+                              style: TStyle.heading2
+                                  .copyWith(color: Pallete.whiteColor),
+                            );
+                          }
+                          return Text(context.loc.empty);
+                        }),
                   ],
                 ),
               ],

@@ -151,61 +151,65 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
               ],
             ),
           ),
-          SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-              child: FutureBuilder(
-                future: createOrGetExistingNote(context),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.done:
-                      log("New note info: $_note", name: tag);
-                      _setupTextControllerlistener();
-                      final gottenArgument = context.getArgument<List>();
-                      return GestureDetector(
-                        onTap: () async {
-                          if (!gottenArgument?[1]) {
-                            final shouldUnarchive =
-                                await showCannotEditNoteDialog(context);
-                            if (shouldUnarchive) {
-                              _noteService.archiveNote(
-                                  documentId: _note!.documentId, value: false);
-                              if (!mounted) return;
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                child: FutureBuilder(
+                  future: createOrGetExistingNote(context),
+                  builder: (context, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.done:
+                        log("New note info: $_note", name: tag);
+                        _setupTextControllerlistener();
+                        final gottenArgument = context.getArgument<List>();
+                        return GestureDetector(
+                          onTap: () async {
+                            if (!gottenArgument?[1]) {
+                              final shouldUnarchive =
+                                  await showCannotEditNoteDialog(context);
+                              if (shouldUnarchive) {
+                                _noteService.archiveNote(
+                                    documentId: _note!.documentId,
+                                    value: false);
+                                if (!mounted) return;
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+                              }
                             }
-                          }
-                        },
-                        child: TextField(
-                          enabled: gottenArgument?[1],
-                          decoration: InputDecoration(
-                            hintText: context.loc.start_typing_your_note,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
+                          },
+                          child: TextField(
+                            enabled: gottenArgument?[1],
+                            decoration: InputDecoration(
+                              hintText: context.loc.start_typing_your_note,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide.none,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide.none,
+                              ),
+                              filled: true,
+                              fillColor: Pallete.lightColor.withOpacity(0.1),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide.none,
-                            ),
-                            filled: true,
-                            fillColor: Pallete.lightColor.withOpacity(0.1),
+                            controller: _textController,
+                            cursorColor: Pallete.darkColor,
+                            autofocus: true,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            textCapitalization: TextCapitalization.sentences,
+                            style: TStyle.bodyMedium,
                           ),
-                          controller: _textController,
-                          cursorColor: Pallete.darkColor,
-                          autofocus: true,
-                          keyboardType: TextInputType.multiline,
-                          maxLines: null,
-                          textCapitalization: TextCapitalization.sentences,
-                          style: TStyle.bodyMedium,
-                        ),
-                      );
-                    default:
-                      return const Center(
-                          child: CircularProgressIndicator.adaptive());
-                  }
-                },
+                        );
+                      default:
+                        return const Center(
+                            child: CircularProgressIndicator.adaptive());
+                    }
+                  },
+                ),
               ),
             ),
           ),
