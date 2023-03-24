@@ -1,37 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/router/app_router.dart';
 import 'package:mynotes/services/auth/bloc/auth_block.dart';
 import 'package:mynotes/services/auth/firebase_auth_provider.dart';
-import 'package:mynotes/views/home/home_view.dart';
-import 'package:mynotes/views/notes/archived_note_view.dart';
-
-import 'package:mynotes/views/notes/create_update_note_view.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:mynotes/views/notes/deleted_note_view.dart';
 
 const tag = "HomePage";
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  final AppRouter appRouter = AppRouter();
   runApp(
-    MaterialApp(
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      title: 'My Notes',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    BlocProvider<AuthBloc>(
+      create: (context) => AuthBloc(FirebaseAuthProvider()),
+      child: MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        title: 'My Notes',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        onGenerateRoute: appRouter.onGenerateRoute,
+        debugShowCheckedModeBanner: false,
       ),
-      home: BlocProvider<AuthBloc>(
-        create: (context) => AuthBloc(FirebaseAuthProvider()),
-        child: const HomeView(),
-      ),
-      routes: {
-        createUpdateNoteRoute: (context) => const CreateUpdateNoteView(),
-        archivedViewRoute: (context) => const ArchivedNoteView(),
-        deletedViewRoute: (context) => const DeletedNoteView()
-      },
-      debugShowCheckedModeBanner: false,
     ),
   );
 }

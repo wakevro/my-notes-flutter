@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mynotes/constants/pallete.dart';
 import 'package:mynotes/constants/dimensions.dart';
 
-import 'package:mynotes/constants/routes.dart';
+import 'package:mynotes/router/routes.dart';
 import 'package:mynotes/constants/text_styling.dart';
 import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
@@ -44,9 +44,8 @@ class _ArchivedNoteViewState extends State<ArchivedNoteView> {
       body: Column(
         children: [
           Container(
-            alignment: Alignment.bottomCenter,
+            alignment: Alignment.bottomLeft,
             padding: Dimension.bodyPadding,
-            height: 200,
             decoration: const BoxDecoration(
               color: Pallete.darkMidColor,
             ),

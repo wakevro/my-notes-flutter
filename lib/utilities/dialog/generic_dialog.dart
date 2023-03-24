@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mynotes/constants/pallete.dart';
+import 'package:mynotes/extensions/buildcontext/loc.dart';
 
 typedef DialogOptionsBuilder<T> = Map<String, T?> Function();
 
@@ -29,7 +31,13 @@ Future<T?> showGenericDialog<T>({
                     Navigator.of(context).pop();
                   }
                 },
-                child: Text(optionTitle));
+                child: Text(
+                  optionTitle,
+                  style: title == context.loc.delete_account &&
+                          optionTitle == context.loc.delete
+                      ? const TextStyle(color: Pallete.redColor)
+                      : const TextStyle(color: Pallete.darkColor),
+                ));
           }).toList(),
         );
       },
@@ -44,14 +52,21 @@ Future<T?> showGenericDialog<T>({
           actions: options.keys.map((optionTitle) {
             final T value = options[optionTitle];
             return TextButton(
-                onPressed: () {
-                  if (value != null) {
-                    Navigator.of(context).pop(value);
-                  } else {
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: Text(optionTitle));
+              onPressed: () {
+                if (value != null) {
+                  Navigator.of(context).pop(value);
+                } else {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text(
+                optionTitle,
+                style: title == context.loc.delete_account &&
+                        optionTitle == context.loc.delete
+                    ? const TextStyle(color: Pallete.redColor)
+                    : const TextStyle(color: Pallete.darkColor),
+              ),
+            );
           }).toList(),
         );
       },
