@@ -9,6 +9,7 @@ import 'package:mynotes/extensions/buildcontext/loc.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/auth/bloc/auth_block.dart';
 import 'package:mynotes/services/auth/bloc/auth_event.dart';
+import 'package:mynotes/services/cloud/cloud_note.dart';
 import 'package:mynotes/services/cloud/firebase_cloud_storage.dart';
 import 'package:mynotes/utilities/dialog/delete_account.dart';
 import 'package:mynotes/utilities/dialog/error_dialog.dart';
@@ -116,10 +117,7 @@ class _SettingsViewState extends State<SettingsView> {
                           _noteService.allUserNotes(ownerUserID: userId);
                       final allUserNotes = await notesStream.first;
                       if (!mounted) return;
-                      for (var note in allUserNotes) {
-                        _noteService.deleteNote(documentId: note.documentId);
-                        log("Deleted note: ${note.text}", name: tag);
-                      }
+                      await deleteAllNotes(allUserNotes);
                       log("Deleted all notes", name: tag);
                       if (!mounted) return;
                       context
@@ -138,5 +136,12 @@ class _SettingsViewState extends State<SettingsView> {
         )
       ],
     ));
+  }
+
+  Future<void> deleteAllNotes(Iterable<CloudNote> allUserNotes) async {
+    for (var note in allUserNotes) {
+      await _noteService.deleteNote(documentId: note.documentId);
+      log("Deleted note: ${note.text}", name: tag);
+    }
   }
 }
