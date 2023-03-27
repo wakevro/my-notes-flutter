@@ -1,5 +1,5 @@
 
-# NY NOTES
+# MY NOTES
 
 ![](https://i.imgur.com/oAR0roT.png)
   
@@ -20,7 +20,7 @@ My Notes is a simple mobile app for taking notes. This app allows users to creat
 - ****Mobile:**** This app is developed for mobile devices using the Flutter framework.
 - ****Story:**** This is a note-taking app that allows users to quickly jot down notes. Users can also share, edit, archive, and delete notes. The app also supports offline mode, so users can access their notes even when they are not connected to the internet.
 - ****Market:**** Anyone who needs to take notes and keep them organized could benefit from this app. It could be especially useful for students, professionals, and anyone who needs to keep track of ideas or tasks.
-- ****Habit:****Users can quickly and easily create and organize notes using this app. The ability to access them offline makes it a convenient tool for staying organized and productive.
+- ****Habit:**** Users can quickly and easily create and organize notes using this app. The ability to access them offline makes it a convenient tool for staying organized and productive.
 - ****Scope:**** The initial focus of the app is on providing a simple and efficient note-taking experience. In the future, the app could be expanded to include additional features such as reminders, collaboration, and cloud syncing. There is also potential for integrating the app with other productivity tools to provide a more comprehensive solution.
 
 
@@ -35,7 +35,7 @@ My Notes is a simple mobile app for taking notes. This app allows users to creat
 ## Getting Started
 
 
-- ****1. Clone the repository: git clone**** [https://github.com/wakevro/my-notes-flutter.git](https://github.com/wakevro/my-notes-flutter.git)
+- ****1. Clone the repository:****
 ```
 
 git clone https://github.com/wakevro/my-notes-flutter.git
