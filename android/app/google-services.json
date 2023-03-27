@@ -29,6 +29,13 @@
             {
               "client_id": "956496516378-9bjvplbdqlg297l5e4vqdlupvjj0o9jn.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "956496516378-e3il66vltrsg2p384vhh33vn7n6q8mnh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.wakevro.mynotes"
+              }
             }
           ]
         }
