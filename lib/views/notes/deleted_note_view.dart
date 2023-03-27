@@ -111,7 +111,7 @@ class _DeletedNoteViewState extends State<DeletedNoteView> {
                         notes: deletedNotes,
                         view: "delete",
                         onTemporaryDeleteNote: (note) async {
-                          _noteService.temporarilyDeleteNote(
+                          await _noteService.temporarilyDeleteNote(
                               documentId: note.documentId,
                               value: !note.deleted);
                         },
@@ -121,13 +121,13 @@ class _DeletedNoteViewState extends State<DeletedNoteView> {
                               value: !note.archived);
                         },
                         onFinalDelete: (note) async {
-                          _noteService.deleteNote(documentId: note.documentId);
+                         await _noteService.deleteNote(documentId: note.documentId);
                         },
                         onTap: (note) async {
                           final shouldRecover =
                               await showCannotViewNoteDialog(context);
                           if (shouldRecover) {
-                            _noteService.temporarilyDeleteNote(
+                            await _noteService.temporarilyDeleteNote(
                                 documentId: note.documentId, value: false);
                           }
                         },
